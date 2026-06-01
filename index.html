@@ -149,18 +149,22 @@ button:hover{
 }
 
 .confetti{
-    position:absolute;
+    position:fixed;
     width:10px;
     height:10px;
+    top:-20px;
     animation:confettiFall 4s linear forwards;
 }
 
 @keyframes confettiFall{
-    from{
-        transform:translateY(-100px);
+    0%{
+        top:-20px;
+        transform:rotate(0deg);
     }
-    to{
-        transform:translateY(120vh);
+
+    100%{
+        top:120vh;
+        transform:rotate(720deg);
     }
 }
 </style>
@@ -260,6 +264,7 @@ function createConfetti(){
         c.className="confetti";
 
         c.style.left=Math.random()*100+"vw";
+        c.style.top="-20px";
         c.style.background=
         `hsl(${Math.random()*360},100%,50%)`;
 
@@ -287,9 +292,9 @@ const messages=[
 "Another year older... still iconic.",
 "Bouta hit 20 huh",
 "May your memes always be low-tier.",
-"May your food arrive hot and your exams arrive easy.",
-"JK, You deserve happiness, success, and unlimited snacks.",
-"also JK, Most importantly... thanks you ❤️"
+"JK, May your food arrive hot and your exams arrive easy.",
+"You deserve happiness, success, and unlimited snacks.",
+"dude, Most importantly... Dankegato ❤️"
 ];
 
 function startWishes(){

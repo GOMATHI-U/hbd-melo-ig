@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday!</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+    overflow:hidden;
+    height:100vh;
+}
+
+.screen{
+    display:none;
+    width:100%;
+    height:100vh;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    text-align:center;
+    padding:20px;
+}
+
+.active{
+    display:flex;
+}
+
+h1{
+    font-size:3rem;
+    color:white;
+    margin-bottom:20px;
+}
+
+p{
+    font-size:1.3rem;
+    color:white;
+    margin:10px;
+    max-width:700px;
+}
+
+button{
+    padding:15px 30px;
+    border:none;
+    border-radius:50px;
+    cursor:pointer;
+    font-size:1rem;
+    margin-top:20px;
+    background:white;
+    color:#ff4f81;
+    font-weight:bold;
+    transition:.3s;
+}
+
+button:hover{
+    transform:scale(1.05);
+}
+
+.cake{
+    position:relative;
+    margin-top:20px;
+}
+
+.layer{
+    width:220px;
+    height:70px;
+    background:#ff85a2;
+    border-radius:10px;
+    position:relative;
+}
+
+.layer2{
+    width:180px;
+    height:60px;
+    background:#ffb3c6;
+    margin:auto;
+    margin-bottom:-10px;
+}
+
+.candle{
+    width:10px;
+    height:50px;
+    background:white;
+    position:absolute;
+    top:-50px;
+}
+
+.flame{
+    width:15px;
+    height:20px;
+    background:gold;
+    border-radius:50%;
+    position:absolute;
+    top:-20px;
+    left:-2px;
+    animation:flicker .5s infinite alternate;
+}
+
+@keyframes flicker{
+    from{transform:scale(1);}
+    to{transform:scale(1.2);}
+}
+
+.hidden{
+    display:none;
+}
+
+#wishes{
+    font-size:2rem;
+    min-height:120px;
+}
+
+.meme{
+    position:absolute;
+    width:180px;
+    animation:fall 5s linear forwards;
+}
+
+@keyframes fall{
+    from{
+        transform:translateY(-200px) rotate(0deg);
+    }
+    to{
+        transform:translateY(120vh) rotate(360deg);
+    }
+}
+
+#fortuneText{
+    font-size:2rem;
+    margin-top:20px;
+    color:white;
+}
+
+.final-message{
+    font-size:2.5rem;
+    color:white;
+}
+
+.confetti{
+    position:absolute;
+    width:10px;
+    height:10px;
+    animation:confettiFall 4s linear forwards;
+}
+
+@keyframes confettiFall{
+    from{
+        transform:translateY(-100px);
+    }
+    to{
+        transform:translateY(120vh);
+    }
+}
+</style>
+</head>
+<body>
+
+<!-- Landing -->
+<div class="screen active" id="screen1">
+    <h1>🎉 Happy Birthday Melora chaaaaaan! 🎉</h1>
+    <p>A very important mission awaits...</p>
+    <button onclick="showCake()">Start Celebration</button>
+</div>
+
+<!-- Cake -->
+<div class="screen" id="screen2">
+    <h1>🎂 Make a Wish!</h1>
+
+    <div class="cake">
+        <div class="layer2"></div>
+        <div class="layer"></div>
+
+        <div class="candle" style="left:60px;">
+            <div class="flame"></div>
+        </div>
+
+        <div class="candle" style="left:105px;">
+            <div class="flame"></div>
+        </div>
+
+        <div class="candle" style="left:150px;">
+            <div class="flame"></div>
+        </div>
+    </div>
+
+    <button onclick="blowCandles()">Blow Candles 🌬️</button>
+</div>
+
+<!-- Wishes -->
+<div class="screen" id="screen3">
+    <h1>💌 Birthday Wishes</h1>
+    <div id="wishes"></div>
+</div>
+
+<!-- Meme Mode -->
+<div class="screen" id="screen4">
+    <h1>⚠️ MEME MODE UNLOCKED ⚠️</h1>
+    <p>Brace yourself...</p>
+</div>
+
+<!-- Fortune -->
+<div class="screen" id="screen5">
+    <h1>🔮 Birthday Fortune</h1>
+    <button onclick="fortune()">Reveal Fortune</button>
+    <div id="fortuneText"></div>
+
+    <button id="finishBtn" class="hidden" onclick="finish()">
+        Continue
+    </button>
+</div>
+
+<!-- Final -->
+<div class="screen" id="screen6">
+    <div class="final-message">
+        ❤️ Happy Birthday Meloraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa...i am out of breath ❤️
+        <br><br>
+        Thank you for being such an amazing friend.
+        <br><br>
+        May your memes stay fresh,
+        your food stay delicious,
+        and your happiness stay infinite.
+        <br><br>
+        🎂🎉😂
+        <br><br>
+        Made with chaos and affection.
+    </div>
+</div>
+
+<script>
+
+function switchScreen(id){
+    document.querySelectorAll(".screen")
+    .forEach(s=>s.classList.remove("active"));
+
+    document.getElementById(id)
+    .classList.add("active");
+}
+
+function showCake(){
+    switchScreen("screen2");
+}
+
+function createConfetti(){
+
+    for(let i=0;i<120;i++){
+
+        let c=document.createElement("div");
+        c.className="confetti";
+
+        c.style.left=Math.random()*100+"vw";
+        c.style.background=
+        `hsl(${Math.random()*360},100%,50%)`;
+
+        document.body.appendChild(c);
+
+        setTimeout(()=>{
+            c.remove();
+        },4000);
+    }
+}
+
+function blowCandles(){
+
+    document.querySelectorAll(".flame")
+    .forEach(f=>f.style.display="none");
+
+    createConfetti();
+
+    setTimeout(()=>{
+        startWishes();
+    },2000);
+}
+
+const messages=[
+"Another year older... still iconic.",
+"May your WiFi stay strong and your battery never hit 1%.",
+"May your memes always be top-tier.",
+"May your food arrive hot and your exams arrive easy.",
+"You deserve happiness, success, and unlimited snacks.",
+"Most importantly... thanks for being you ❤️"
+];
+
+function startWishes(){
+
+    switchScreen("screen3");
+
+    let i=0;
+
+    function nextWish(){
+
+        if(i<messages.length){
+
+            document.getElementById("wishes")
+            .innerHTML=messages[i];
+
+            i++;
+
+            setTimeout(nextWish,2500);
+        }
+        else{
+            startMemes();
+        }
+    }
+
+    nextWish();
+}
+
+function startMemes(){
+
+    switchScreen("screen4");
+
+    const memeUrls = [
+    "memes/gif1.gif",
+    "memes/gif2.webp",
+    "memes/gif3.webp",
+    "memes/gif4.gif",
+    "memes/gif5.gif",
+    "memes/gif6.gif",
+    "memes/gif7.gif"
+];
+
+    let count=0;
+
+    let interval=setInterval(()=>{
+
+        let img=document.createElement("img");
+
+        img.src=memeUrls[
+        Math.floor(Math.random()*memeUrls.length)
+        ];
+
+        img.className="meme";
+        img.style.left=Math.random()*90+"vw";
+
+        document.body.appendChild(img);
+
+        setTimeout(()=>{
+            img.remove();
+        },5000);
+
+        count++;
+
+        if(count>20){
+            clearInterval(interval);
+
+            setTimeout(()=>{
+                switchScreen("screen5");
+            },3000);
+        }
+
+    },300);
+}
+
+function fortune(){
+
+    const fortunes=[
+    "You will accidentally send a meme to the wrong person.",
+    "A legendary meme shall appear in your gallery.",
+    "Unlimited birthday food is approaching.",
+    "Your next selfie will be unexpectedly amazing.",
+    "Today you are the main character.",
+    "You will laugh at something stupid for 20 minutes."
+    ];
+
+    document.getElementById("fortuneText")
+    .innerHTML=
+    fortunes[Math.floor(Math.random()*fortunes.length)];
+
+    document.getElementById("finishBtn")
+    .classList.remove("hidden");
+}
+
+function finish(){
+    switchScreen("screen6");
+}
+
+</script>
+
+</body>
+</html>
